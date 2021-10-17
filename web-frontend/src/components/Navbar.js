@@ -1,11 +1,6 @@
 import React from "react";
 import '../App.css'
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 function Navbar() {
 
@@ -20,7 +15,6 @@ function Navbar() {
                     <li>
                         <Link  className="item" to="/login">Login</Link>
                     </li>
-
                 </ul>
             </nav>
         </div>

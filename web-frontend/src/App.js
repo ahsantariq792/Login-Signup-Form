@@ -2,6 +2,7 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Signup from './components/Signupform';
 import Login from './components/LoginForm';
+import Dashboard from './components/Dashboard';
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,9 +15,9 @@ function App() {
       <Router>
         <Navbar />
         <Switch>
-          {/* <Route path="/signup">
-            <Signup />
-          </Route> */}
+          <Route path="/dashboard">
+            <Dashboard />
+          </Route>
           <Route path="/login">
             <Login />
           </Route>

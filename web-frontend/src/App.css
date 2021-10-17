@@ -10,21 +10,10 @@ body {
 
 h3{
   font-family: cursive;
-  font-size: 20px;
+  font-size: 32px;
   margin: 0px !important;
 }
 
-h1{
-  font-family: cursive;
-  font-size: 40px;
-  position: relative;
-  left: 20% !important;
-  color: yellow;
-  border: 5px solid red;
-  width: fit-content;
-  border-radius: 10px;
-  padding: 1%;
-}
 
 nav{
   
@@ -41,17 +30,24 @@ ul{
 
 li{
   list-style: none;
-  margin: 10px;
   text-decoration: none;
-  
+  padding: 1%;
+  margin-right: 2%;
 }
 
 .item{
   text-decoration: none;
   color: white;
-  font-size: 28px;
+  font-size: 30px;
   font-family: 'Times New Roman', Times, serif;
 }
+
+li:hover{
+  background-color: red;
+  height: 100% !important;
+  border-radius: 10px;
+}
+
 
 h2{
   font-size: 40px;
@@ -85,14 +81,12 @@ form{
 }
 
 
-
-
-
 #btn{
   width: 20%;
   position: relative;
   left: 40%;
   margin-top: 4%;
+  font-size: 18px;
 }
 
 form .box{
@@ -102,6 +96,20 @@ form .box{
   left: 10%;
 
 }
+
+#name{
+  color: yellow;
+  font-weight: 400px;
+  text-transform: uppercase;
+}
+
+#wlm{
+  color: white;
+  text-align: center;
+}
+
+
+
 
 
 

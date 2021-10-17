@@ -1,24 +1,12 @@
 import '../App.css';
+import {useHistory} from "react-router-dom";
 import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Button from "@mui/material/Button";
 import { TextField } from '@mui/material';
-const axios = require('axios');
-
-
-const submit = (values) => {
-  console.log("values", values)
-  axios.post("http://localhost:5000/api/v1/login",
-  {
-    name: values.name,
-    email: values.email
-  })
-  .then(res => {
-    console.log(res.data);
-  })
-}
-
+import axios from 'axios';
+import { baseurl } from '../core';
 
 
 const validationSchema = yup.object({
@@ -26,20 +14,11 @@ const validationSchema = yup.object({
     .string('Enter your email')
     .email('Enter a valid email')
     .required('Email is required'),
-  // password: yup
-  //   .string('Enter your password')
-  //   .min(8, 'Password should be of minimum 8 characters length')
-  //   .required('Password is required'),
-  name: yup
+
+  password: yup
     .string('Enter your password')
-    .min(4, 'Name should be of minimum 4 characters length')
-    .required('Name is required'),
-  // age: yup
-  //   .number('Enter your age')
-  //   .positive('age should not be negative')
-  //   .min(10, 'age should more than 10 years')
-  //   .max(200, 'age should be less than 200 years')
-  //   .required('age is required'),
+    .min(8, 'Password should be of minimum 8 characters length')
+    .required('Password is required'),
 });
 
 
@@ -48,12 +27,39 @@ const validationSchema = yup.object({
 
 function Loginform() {
 
+  let history = useHistory();
+
+  const submit = (values) => {
+    console.log("values", values)
+    axios.post(`${baseurl}/api/v1/login`,
+      {
+        email: values.email,
+        password: values.password
+      })
+      .then(res => {
+        console.log(res.data);
+        localStorage.setItem('name',res.data.name)
+
+        if (res.data.email) {
+          setTimeout(() => {
+          history.push("/dashboard")
+            
+          }, 2000);
+        }
+
+        
+      })
+
+
+
+  }
+
   const formik = useFormik({
     validationSchema: validationSchema,
     initialValues: {
       email: '',
-      name: '',
-     
+      password: '',
+
     },
     onSubmit: submit
   },
@@ -64,30 +70,9 @@ function Loginform() {
     <>
       <div className="container">
         <div className="main">
-          <h1>Login Form</h1>
           <form onSubmit={formik.handleSubmit}>
 
-            <h3> Personal Information </h3>
-
-            <TextField
-              id="outlined-basic"
-              name="name"
-              label="name"
-              className="box"
-
-              value={formik.values.name}
-              onChange={formik.handleChange}
-
-
-              error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
-
-              variant="outlined" />
-
-
-
-            <h3> Contact Details </h3>
-
+            <h3> Login Form </h3>
 
             <TextField
               id="outlined-basic"
@@ -102,6 +87,23 @@ function Loginform() {
 
 
               variant="outlined" />
+
+            <TextField
+              id="outlined-basic"
+              name="password"
+              label="password"
+              type="password"
+              className="box"
+
+              value={formik.values.password}
+              onChange={formik.handleChange}
+
+
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
+
+              variant="outlined" />
+
 
             <Button id="btn" variant="contained" color="success" type="submit">
               Submit

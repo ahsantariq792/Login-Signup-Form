@@ -4,21 +4,26 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Button from "@mui/material/Button";
 import { TextField } from '@mui/material';
-const axios = require('axios');
-
+import axios from 'axios';
+import { baseurl } from '../core';
 
 const submit = (values) => {
   console.log("values", values)
-  axios.post("http://localhost:5000/api/v1/profile",
+  axios.post(`${baseurl}/api/v1/signup`,
   {
     name: values.name,
-    email: values.email
+    email: values.email,
+    phone: values.phone,
+    password: values.password
+  
   })
   .then(res => {
     console.log(res.data);
   })
 }
 
+
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
 
 const validationSchema = yup.object({
@@ -31,18 +36,17 @@ const validationSchema = yup.object({
     .min(4, 'Name should be of minimum 4 characters length')
     .required('Name is required'),
 
+    phone: yup
+    .string('Enter your phone no.')
+    .matches(phoneRegExp, 'Phone number is not valid')
+    .min(11, 'Phone should contain 11 digits')
+    .max(11, 'Phone should contain 11 digits')
+    .required('phone number is required'),
 
-  // age: yup
-  //   .number('Enter your age')
-  //   .positive('age should not be negative')
-  //   .min(10, 'age should more than 10 years')
-  //   .max(200, 'age should be less than 200 years')
-  //   .required('age is required'),
-
-  // password: yup
-  //   .string('Enter your password')
-  //   .min(8, 'Password should be of minimum 8 characters length')
-  //   .required('Password is required'),
+  password: yup
+    .string('Enter your password')
+    .min(8, 'Password should be of minimum 8 characters length')
+    .required('Password is required'),
 
 });
 
@@ -57,6 +61,8 @@ function Signupform() {
     initialValues: {
       email: '',
       name: '',
+      phone:'',
+      password: ''
      
     },
     onSubmit: submit
@@ -68,10 +74,9 @@ function Signupform() {
     <>
       <div className="container"> 
         <div className="main">
-          <h1>Signup Form</h1>
           <form onSubmit={formik.handleSubmit}>
 
-            <h3> Personal Information </h3>
+            <h3> Sign up Form </h3>
 
             <TextField
               id="outlined-basic"
@@ -89,25 +94,6 @@ function Signupform() {
               variant="outlined" />
 
 
-
-            {/* <TextField
-              id="outlined-basic"
-              name="age"
-              label="age"
-              className="box"
-
-              value={formik.values.age}
-              onChange={formik.handleChange}
-
-
-              error={formik.touched.age && Boolean(formik.errors.age)}
-              helperText={formik.touched.age && formik.errors.age}
-
-              variant="outlined" /> */}
-
-            <h3> Contact Details </h3>
-
-
             <TextField
               id="outlined-basic"
               name="email"
@@ -122,7 +108,7 @@ function Signupform() {
 
               variant="outlined" />
 
-            {/* <TextField
+            <TextField
               id="outlined-basic"
               name="phone"
               label="phone"
@@ -135,27 +121,6 @@ function Signupform() {
 
 
               variant="outlined" />
-
-
-            <h3> Portfolio URL </h3>
-
-
-            <TextField
-              id="outlined-basic"
-              name="website"
-              label="url"
-              className="box"
-              value={formik.values.website}
-              onChange={formik.handleChange}
-
-              error={formik.touched.website && Boolean(formik.errors.website)}
-              helperText={formik.touched.website && formik.errors.website}
-
-
-              variant="outlined" />
-
-
-            <h3> Account Password </h3>
 
 
             <TextField
@@ -172,7 +137,7 @@ function Signupform() {
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
 
-              variant="outlined" /> */}
+              variant="outlined" />
 
 
             <Button id="btn" variant="contained" color="success" type="submit">
